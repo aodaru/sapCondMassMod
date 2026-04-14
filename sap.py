@@ -4,6 +4,7 @@ import time
 import os
 import sys
 from dotenv import load_dotenv
+from sap_vk12_massmod import SapVk12MassMod
 import win32com.client  # type: ignore
 import pandas as pd
 
@@ -61,37 +62,9 @@ class SapGui():
         self.connection.CloseSession('ses[0]')
         subprocess.run(["taskkill", "/f", "/im", "saplogon.exe"])
     
-    def massive_change(self, file_path): 
-        data = pd.read_excel(file_path, sheet_name="Hoja1").astype(str)
-        data.columns = data.columns.str.replace(" ", '_')
+    def massive_change(self, file_path):
+        if not hasattr(self, "session") or self.session is None:
+            raise RuntimeError("SAP session no iniciada. Ejecute sapLogin primero.")
 
-        self.session.findById("wnd[0]").maximize()
-        
-        for index, row in data.iterrows():
-            self.session.findById("wnd[0]/tbar[0]/okcd").text = "xd01"
-            self.session.findById("wnd[0]").sendVKey(0)
-            time.sleep(2)
-            self.session.findById("wnd[1]/usr/cmbRF02D-KTOKD").key = "ZNAC"
-            self.session.findById("wnd[1]/usr/cmbRF02D-KTOKD").setFocus()
-            self.session.findById("wnd[1]").sendVKey(0)
-            time.sleep(2)
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/cmbSZA1_D0100-TITLE_MEDI").key = "CONSUMIDOR_FINAL_SIN_NOMBRE"
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-NAME1").text = row.NAME 
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-SORT1").text = row.SEARCH_TERM
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-STREET").text = row.STREET
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-HOUSE_NUM1").text = row.NUM_HOUSE
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-POST_CODE1").text = row.POSTCODE
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/ctxtADDR1_DATA-COUNTRY").text = row.COUNTRY
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/ctxtADDR1_DATA-REGION").text = row.REGION
-            
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-STREET").setFocus()
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB01/ssubSUBSC:SAPLATAB:0201/subAREA1:SAPMF02D:7111/subADDRESS:SAPLSZA1:0300/subCOUNTRY_SCREEN:SAPLSZA1:0301/txtADDR1_DATA-STREET").caretPosition = 7
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02").select()
-            time.sleep(1)
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02/ssubSUBSC:SAPLATAB:0200/subAREA2:SAPMF02D:7123/ctxtKNA1-BRSCH").text = row.INDUSTRY
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02/ssubSUBSC:SAPLATAB:0200/subAREA3:SAPMF02D:7122/txtKNA1-STCD1").text = row.POSF1
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02/ssubSUBSC:SAPLATAB:0200/subAREA3:SAPMF02D:7122/txtKNA1-STCD2").text = row.POSF2
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02/ssubSUBSC:SAPLATAB:0200/subAREA3:SAPMF02D:7122/txtKNA1-STCD2").setFocus()
-            self.session.findById("wnd[0]/usr/subSUBTAB:SAPLATAB:0100/tabsTABSTRIP100/tabpTAB02/ssubSUBSC:SAPLATAB:0200/subAREA3:SAPMF02D:7122/txtKNA1-STCD2").caretPosition = 2
-            self.session.findById("wnd[0]/tbar[0]/btn[11]").press()
-            self.session.findById("wnd[0]/tbar[0]/btn[12]").press()
+        runner = SapVk12MassMod(self.session)
+        return runner.run_vk12_massmod(file_path)
