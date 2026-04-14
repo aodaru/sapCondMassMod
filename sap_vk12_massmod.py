@@ -37,6 +37,7 @@ class SapVk12MassMod:
             else:
                 print(f"Advertencia: Flujo '{flow_name}' no encontrado. Fila {index}, Material: {row.MATERIAL}")
 
+    # Flujos modificacion masiva
     def _mat_orgvent_candistr(self, session, row, index):
         session.findById("wnd[0]/tbar[0]/okcd").text = "vk12"
         session.findById("wnd[0]").sendVKey(0)
@@ -87,7 +88,10 @@ class SapVk12MassMod:
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+    
+    # Fin - Flujos modificacion masiva
 
+    # Llamada de flujos masivos
     def mat_orgvent_candistr(self, session, row, index):
         self._mat_orgvent_candistr(session, row, index)
 
@@ -97,5 +101,5 @@ class SapVk12MassMod:
     def orgven_candist_sec_gpoart(self, session, row, index):
         pass
 
-    def orgvent_candistr_gpoart(self, session, row, index):
+    def _orgvent_candistr_gpoart(self, session, row, index):
         pass
