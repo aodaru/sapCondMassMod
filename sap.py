@@ -16,26 +16,29 @@ password = os.getenv("PASSWD")
 language = os.getenv("LANGUAGE")
 
 class SapGui():
-    def __init__(self):
-
+    def open_sap(self):
         self.path = r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
         subprocess.Popen(self.path)
-        time.sleep(3)
-
-        self.SapGuiAuto = win32com.client.GetObject("SAPGUI")
-        if not type(self.SapGuiAuto) == win32com.client.CDispatch:
-            print("SAP GUI not found")
-            return
-
-        application = self.SapGuiAuto.GetScriptingEngine
-        self.connection = application.OpenConnection(system_sap, True)
-        time.sleep(3)
-
+    
+    def connection_sap(self):
+        # debes investigar como detectar si ya esta corriendo el SAPGUI
+        SapGuiAuto = win32com.client.GetObject("SAPGUI")
+        application = SapGuiAuto.GetScriptingEngine
+        self.connection = application.Children(0)
         self.session = self.connection.Children(0)
-
-        self.sapLogin()
+        self.session.findById("wnd[0]").maximize()
 
     def sapLogin(self):
+        self.open_sap()
+        time.sleep(3)
+        self.SapGuiAuto = win32com.client.GetObject("SAPGUI")
+        self.application = self.SapGuiAuto.GetScriptingEngine
+        self.connection = self.application.OpenConnection(system_sap, True)
+        time.sleep(3)
+        self.session = self.connection.Children(0)
+
+        if not type(self.SapGuiAuto) == win32com.client.CDispatch:
+            return
 
         try: 
 
@@ -53,13 +56,12 @@ class SapGui():
         except:
             print(sys.exc_info()[0])
 
-    def safe_close_window(self, window_id):
-        try:
-            self.session.findById(window_id).close()
-        except Exception:
-            pass
+    def safe_close_window(self):
+        self.connection_sap()
+        self.connection.CloseSession('ses[0]')
+        subprocess.run(["taskkill", "/f", "/im", "saplogon.exe"])
     
-    def register_client(self, file_path): 
+    def massive_change(self, file_path): 
         data = pd.read_excel(file_path, sheet_name="Hoja1").astype(str)
         data.columns = data.columns.str.replace(" ", '_')
 
