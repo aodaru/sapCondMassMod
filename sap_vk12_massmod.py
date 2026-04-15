@@ -119,7 +119,7 @@ class SapVk12MassMod:
         session.findById("wnd[0]/usr/ctxtF003-LOW").caretPosition = 9
         session.findById("wnd[0]/tbar[1]/btn[8]").press()
         time.sleep(1)
-        gpo_mat_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-MATKL[2,0]")
+        gpo_mat_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATKL[0,0]")
         existing_gpo_mat = gpo_mat_field.text
         if existing_gpo_mat:
             print(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
@@ -130,19 +130,23 @@ class SapVk12MassMod:
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").setFocus
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").caretPosition = 16
         session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[11]").press()
+        time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+        time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
 
     
     # Fin - Flujos modificacion masiva
+
 
     # Llamada de flujos masivos
     def mat_orgvent_candistr(self, session, row, index):
         self._mat_orgvent_candistr(session, row, index)
 
     def orgvent_candistr_gpoart(self, session, row, index):
-        pass
+        self._orgvent_candistr_gpoart(session, row, index)
 
     def orgvent_candistr_sec_ramo_mat(self, session, row, index):
         pass
