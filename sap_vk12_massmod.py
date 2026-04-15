@@ -28,6 +28,8 @@ class SapVk12MassMod:
             "GRUPO_ARTICULO",
             "ORG_VENTA",
             "CAN_DISTR",
+            "SECTOR",
+            "RAMO",
             "TIPO_MODIFICACION"
             ]
         missing_columns = [c for c in required_columns if c not in data.columns]
@@ -47,6 +49,8 @@ class SapVk12MassMod:
                 print(f"Advertencia: Flujo '{flow_name}' no encontrado. Fila {index}, Material: {row.MATERIAL}")
 
     # Flujos modificacion masiva
+
+    # ## material, organización de ventas, canal de distribución
     def _mat_orgvent_candistr(self, session, row, index):
         print(f"Material: {row.MATERIAL}")
         session.findById("wnd[0]/tbar[0]/okcd").text = "vk12"
@@ -137,7 +141,61 @@ class SapVk12MassMod:
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
 
+    # ## Organización de ventas, canal de distribución, sector ramo material
+    def _orgvent_candistr_sec_ramo_mat(self, session, row, index):
+        session.findById("wnd[0]/tbar[0]/okcd").text = "vk12"
+        session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[0]/usr/ctxtRV13A-KSCHL").text = "Z004"
+        session.findById("wnd[0]/usr/ctxtRV13A-KSCHL").caretPosition = 4
+        session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[3,0]").select()
+        session.findById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[3,0]").setFocus()
+        session.findById("wnd[1]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[0]/usr/ctxtF001").text = row.ORG_VENTA
+        session.findById("wnd[0]/usr/ctxtF002").text = row.CAN_DISTR
+        session.findById("wnd[0]/usr/ctxtF003").text = row.SECTOR
+        session.findById("wnd[0]/usr/ctxtF004").text = row.RAMO
+        session.findById("wnd[0]/usr/ctxtF005-LOW").text = row.MATERIAL
+        session.findById("wnd[0]/usr/ctxtF005-LOW").setFocus()
+        session.findById("wnd[0]/usr/ctxtF005-LOW").caretPosition = 8
+        session.findById("wnd[0]").sendVKey(0)
+        session.findById("wnd[0]/tbar[1]/btn[8]").press()
+        time.sleep(1)
+
+        ramo_field = session.findById("wnd[0]/usr/ctxtKOMG-BRSCH")
+        existing_ramo = ramo_field.text
+        if existing_ramo:
+            print(f"Fila {index}: ramo ya contiene datos: {existing_ramo}")
+        else:
+            ramo_field.text = row.RAMO
+
+        material_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]")
+        existing_material = material_field.text
+        if existing_material:
+            print(f"Fila {index}: material ya contiene datos: {existing_material}")
+        else:
+            material_field.text = row.MATERIAL
+
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").setFocus
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").caretPosition = 8
+        session.findById("wnd[0]").sendVKey(0)
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").text = row.IMPORTE
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").setFocus()
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").caretPosition = 11
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[11]").press()
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[3]").press()
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[3]").press()
     
+    # ## Organización de ventas, canal de distribución, sector grupo de artículo
+    def _orgven_candist_sec_gpoart(self, session, row, index):
+        pass
+
     # Fin - Flujos modificacion masiva
 
 
@@ -149,8 +207,8 @@ class SapVk12MassMod:
         self._orgvent_candistr_gpoart(session, row, index)
 
     def orgvent_candistr_sec_ramo_mat(self, session, row, index):
-        pass
+        self._orgvent_candistr_sec_ramo_mat(session, row, index)
 
     def orgven_candist_sec_gpoart(self, session, row, index):
-        pass
+        self._orgven_candist_sec_gpoart(session, row, index)
 
