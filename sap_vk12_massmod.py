@@ -130,7 +130,7 @@ class SapVk12MassMod:
         else:
             gpo_mat_field.text = row.GRUPO_ARTICULO
     
-        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").text = "4"
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").text = row.IMPORTE
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").setFocus
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").caretPosition = 16
         session.findById("wnd[0]").sendVKey(0)
@@ -194,8 +194,43 @@ class SapVk12MassMod:
     
     # ## Organización de ventas, canal de distribución, sector grupo de artículo
     def _orgven_candist_sec_gpoart(self, session, row, index):
-        pass
+        session.findById("wnd[0]/tbar[0]/okcd").text = "vk12"
+        session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[0]/usr/ctxtRV13A-KSCHL").text = "Z004"
+        session.findById("wnd[0]/usr/ctxtRV13A-KSCHL").caretPosition = 4
+        session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[4,0]").select()
+        session.findById("wnd[1]/usr/sub:SAPLV14A:0100/radRV130-SELKZ[4,0]").setFocus()
+        session.findById("wnd[1]/tbar[0]/btn[0]").press()
+        time.sleep(1)
+        session.findById("wnd[0]/usr/ctxtF001").text = row.ORG_VENTA
+        session.findById("wnd[0]/usr/ctxtF002").text = row.CAN_DISTR
+        session.findById("wnd[0]/usr/ctxtF003").text = row.SECTOR
+        session.findById("wnd[0]/usr/ctxtF004").text = row.RAMO
+        session.findById("wnd[0]/usr/ctxtF005-LOW").text = row.GRUPO_ARTICULO
+        session.findById("wnd[0]/usr/ctxtF005-LOW").setFocus()
+        session.findById("wnd[0]/usr/ctxtF005-LOW").caretPosition = 9
+        session.findById("wnd[0]/tbar[1]/btn[8]").press()
 
+        gpo_mat_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATKL[0,0]")
+        existing_gpo_mat = gpo_mat_field.text
+        if existing_gpo_mat:
+            print(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
+        else:
+            gpo_mat_field.text = row.GRUPO_ARTICULO
+
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").text = row.IMPORTE
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").setFocus()
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").caretPosition = 16
+        session.findById("wnd[0]").sendVKey(0)
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[11]").press()
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[3]").press()
+        time.sleep(1)
+        session.findById("wnd[0]/tbar[0]/btn[3]").press()
     # Fin - Flujos modificacion masiva
 
 
