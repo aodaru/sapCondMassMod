@@ -78,7 +78,7 @@ def validate_field(field: str, value: str, row_num: int) -> Optional[str]:
     return None
 
 
-def validate_excel(file_path: str) -> Tuple[pd.DataFrame, List[str]]:
+def validate_excel(file_path: str, log_func=print) -> Tuple[pd.DataFrame, List[str]]:
     errors = []
 
     data = pd.read_excel(file_path, sheet_name="Hoja1", dtype=str)
@@ -99,11 +99,11 @@ def validate_excel(file_path: str) -> Tuple[pd.DataFrame, List[str]]:
     return data, errors
 
 
-def print_validation_errors(errors: List[str]):
+def print_validation_errors(errors: List[str], log_func=print):
     if errors:
-        print(f"\n{'='*50}")
-        print(f"Se encontraron {len(errors)} error(es):")
-        print("="*50)
+        log_func(f"\n{'='*50}")
+        log_func(f"Se encontraron {len(errors)} error(es):")
+        log_func("="*50)
         for error in errors:
-            print(f"  - {error}")
-        print("="*50)
+            log_func(f"  - {error}")
+        log_func("="*50)

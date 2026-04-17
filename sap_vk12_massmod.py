@@ -6,8 +6,9 @@ from validators import validate_excel, print_validation_errors
 class SapVk12MassMod:
     """Lógica de modificación masiva para el flujo VK12."""
 
-    def __init__(self, session):
+    def __init__(self, session, log_func=print):
         self.session = session
+        self.log = log_func
 
     def available_flows(self):
         return ["vk12_massmod"]
@@ -18,10 +19,11 @@ class SapVk12MassMod:
         raise ValueError(f"Flujo desconocido: {flow_name}")
 
     def run_vk12_massmod(self, file_path):
-        data, errors = validate_excel(file_path)
+        self.log("Iniciando Proceso ...")
+        data, errors = validate_excel(file_path, self.log)
 
         if errors:
-            print_validation_errors(errors)
+            print_validation_errors(errors, self.log)
             return
 
         self.session.findById("wnd[0]").maximize()
@@ -34,7 +36,7 @@ class SapVk12MassMod:
             if method and callable(method):
                 method(self.session, row, index)
             else:
-                print(f"Advertencia: Flujo '{flow_name}' no encontrado. Fila {index}, Material: {row.MATERIAL}")
+                self.log(f"Advertencia: Flujo '{flow_name}' no encontrado. Fila {index}, Material: {row.MATERIAL}")
 
     # Flujos modificacion masiva
 
@@ -66,7 +68,8 @@ class SapVk12MassMod:
         )
         existing_material = material_field.text
         if existing_material:
-            print(f"Fila {index}: material ya contiene datos: {existing_material}")
+
+            self.log(f"Fila {index}: material ya contiene datos: {existing_material}")
         else:
             material_field.text = row.MATERIAL
 
@@ -75,7 +78,7 @@ class SapVk12MassMod:
         )
         existing_unidad_medida = unidad_medida_field.text
         if existing_unidad_medida:
-            print(f"Fila {index}: unidad de medida ya contiene datos: {existing_unidad_medida}")
+            self.log(f"Fila {index}: unidad de medida ya contiene datos: {existing_unidad_medida}")
         else:
             unidad_medida_field.text = row.UNIDAD_DE_MEDIDA
 
@@ -113,7 +116,7 @@ class SapVk12MassMod:
         gpo_mat_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATKL[0,0]")
         existing_gpo_mat = gpo_mat_field.text
         if existing_gpo_mat:
-            print(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
+            self.log(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
         else:
             gpo_mat_field.text = row.GRUPO_ARTICULO
     
@@ -155,14 +158,14 @@ class SapVk12MassMod:
         ramo_field = session.findById("wnd[0]/usr/ctxtKOMG-BRSCH")
         existing_ramo = ramo_field.text
         if existing_ramo:
-            print(f"Fila {index}: ramo ya contiene datos: {existing_ramo}")
+            self.log(f"Fila {index}: ramo ya contiene datos: {existing_ramo}")
         else:
             ramo_field.text = row.RAMO
 
         material_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]")
         existing_material = material_field.text
         if existing_material:
-            print(f"Fila {index}: material ya contiene datos: {existing_material}")
+            self.log(f"Fila {index}: material ya contiene datos: {existing_material}")
         else:
             material_field.text = row.MATERIAL
 
@@ -204,7 +207,7 @@ class SapVk12MassMod:
         gpo_mat_field = session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATKL[0,0]")
         existing_gpo_mat = gpo_mat_field.text
         if existing_gpo_mat:
-            print(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
+            self.log(f"Fila {index}: grupo de material ya contiene datos: {existing_gpo_mat}")
         else:
             gpo_mat_field.text = row.GRUPO_ARTICULO
 

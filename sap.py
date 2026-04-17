@@ -62,9 +62,9 @@ class SapGui():
         self.connection.CloseSession('ses[0]')
         subprocess.run(["taskkill", "/f", "/im", "saplogon.exe"])
     
-    def massive_change(self, file_path):
+    def massive_change(self, file_path, log_func=print):
         if not hasattr(self, "session") or self.session is None:
             raise RuntimeError("SAP session no iniciada. Ejecute sapLogin primero.")
 
-        runner = SapVk12MassMod(self.session)
+        runner = SapVk12MassMod(self.session, log_func)
         return runner.run_vk12_massmod(file_path)
