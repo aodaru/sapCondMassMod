@@ -70,7 +70,6 @@ class SapVk12MassMod:
         )
         existing_material = material_field.text
         if existing_material:
-
             self.log(f"Fila {index}: material ya contiene datos: {existing_material}")
         else:
             material_field.text = row.MATERIAL
@@ -94,6 +93,8 @@ class SapVk12MassMod:
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+
+        self.log(f"Fila {index}: modificación masiva para material {row.MATERIAL} con el importe [ -{row.IMPORTE}% ] completada.")
 
     # ## Organización de ventas, canal de distribución, grupo de artículo
     def _orgvent_candistr_gpoart(self, session, row, index):
@@ -132,6 +133,8 @@ class SapVk12MassMod:
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+
+        self.log(f"Fila {index}: modificación masiva para grupo de artículo {row.GRUPO_ARTICULO} con el importe [ -{row.IMPORTE}% ] completada.")
 
     # ## Organización de ventas, canal de distribución, sector ramo material
     def _orgvent_candistr_sec_ramo_mat(self, session, row, index):
@@ -183,6 +186,8 @@ class SapVk12MassMod:
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+
+        self.log(f"Fila {index}: modificación masiva para material {row.MATERIAL} con el importe [ -{row.IMPORTE}% ] completada.")
     
     # ## Organización de ventas, canal de distribución, sector grupo de artículo
     def _orgven_candist_sec_gpoart(self, session, row, index):
@@ -223,6 +228,8 @@ class SapVk12MassMod:
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
         time.sleep(1)
         session.findById("wnd[0]/tbar[0]/btn[3]").press()
+
+        self.log(f"Fila {index}: modificación masiva para grupo de artículo {row.GRUPO_ARTICULO} con el importe [ -{row.IMPORTE}% ] completada.")
     # Fin - Flujos modificacion masiva
 
 
