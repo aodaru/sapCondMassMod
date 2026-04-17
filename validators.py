@@ -95,6 +95,7 @@ def validate_excel(file_path: str, log_func=print) -> Tuple[pd.DataFrame, List[s
             error = validate_field(field, row.get(field, ""), index)
             if error:
                 errors.append(error)
+                data.drop(index, inplace=True)  # Eliminar fila con error para evitar procesamiento posterior   
 
     return data, errors
 

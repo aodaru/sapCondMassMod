@@ -19,12 +19,14 @@ class SapVk12MassMod:
         raise ValueError(f"Flujo desconocido: {flow_name}")
 
     def run_vk12_massmod(self, file_path):
+        self.log(f"{'='*50}")
         self.log("Iniciando Proceso ...")
+        self.log(f"{'='*50}")
         data, errors = validate_excel(file_path, self.log)
 
         if errors:
             print_validation_errors(errors, self.log)
-            return
+            # return
 
         self.session.findById("wnd[0]").maximize()
 

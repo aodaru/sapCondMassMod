@@ -27,7 +27,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.sap = SapGui()
         self.sap.sapLogin()
 
+        self.plainTextEdit.appendPlainText(f"{'='*50}")
         self.plainTextEdit.appendPlainText("Login successful") 
+        self.plainTextEdit.appendPlainText(f"{'='*50}")
 
     def massive_change(self):
         msgBox = QMessageBox()
@@ -41,7 +43,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ret == QMessageBox.Yes:
             self.sap.massive_change(self.txt_file.text(), self.plainTextEdit.appendPlainText)
 
+            self.plainTextEdit.appendPlainText(f"{'='*50}")
             self.plainTextEdit.appendPlainText("Ejecucion completada con exito!") 
+            self.plainTextEdit.appendPlainText(f"{'='*50}")
 
     def logout(self):
         msgBox = QMessageBox()
@@ -53,6 +57,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if ret == QMessageBox.Yes:
             self.sap.safe_close_window()
+            self.plainTextEdit.appendPlainText(f"{'='*50}")
+            self.plainTextEdit.appendPlainText("Sesión cerrada con éxito")
+            self.plainTextEdit.appendPlainText(f"{'='*50}")
 
     def close_application(self):
         self.close()
