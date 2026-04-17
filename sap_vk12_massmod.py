@@ -1,5 +1,6 @@
 import time
 import pandas as pd
+from validators import validate_excel, print_validation_errors
 
 
 class SapVk12MassMod:
@@ -17,24 +18,11 @@ class SapVk12MassMod:
         raise ValueError(f"Flujo desconocido: {flow_name}")
 
     def run_vk12_massmod(self, file_path):
-        # data = pd.read_excel(file_path, sheet_name="Hoja1").astype(str)
-        data = pd.read_excel(file_path, sheet_name="Hoja1", dtype=str)
-        data.columns = data.columns.str.strip().str.upper().str.replace(" ", "_")
+        data, errors = validate_excel(file_path)
 
-        required_columns = [
-            "MATERIAL", 
-            "UNIDAD_DE_MEDIDA", 
-            "IMPORTE", 
-            "GRUPO_ARTICULO",
-            "ORG_VENTA",
-            "CAN_DISTR",
-            "SECTOR",
-            "RAMO",
-            "TIPO_MODIFICACION"
-            ]
-        missing_columns = [c for c in required_columns if c not in data.columns]
-        if missing_columns:
-            raise ValueError(f"Faltan columnas en el Excel: {', '.join(missing_columns)}")
+        if errors:
+            print_validation_errors(errors)
+            return
 
         self.session.findById("wnd[0]").maximize()
 
@@ -52,7 +40,6 @@ class SapVk12MassMod:
 
     # ## material, organización de ventas, canal de distribución
     def _mat_orgvent_candistr(self, session, row, index):
-        print(f"Material: {row.MATERIAL}")
         session.findById("wnd[0]/tbar[0]/okcd").text = "vk12"
         session.findById("wnd[0]").sendVKey(0)
         time.sleep(1)

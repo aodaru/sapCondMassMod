@@ -16,6 +16,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.btn_logout.clicked.connect(self.logout)
         self.btn_close.clicked.connect(self.close_application)
+
+        self.plainTextEdit.setReadOnly(True)
+        self.plainTextEdit.appendPlainText("Iniciando proceso...") 
     
     def open_file(self):
         self.file = QFileDialog.getOpenFileName(self, "Elija la hoja de cálculo")
@@ -25,11 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.sap = SapGui()
         self.sap.sapLogin()
 
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("Login successful")
-        msg.setWindowTitle("SAP Login")
-        msg.exec_()
+        self.plainTextEdit.appendPlainText("Login successful") 
 
     def massive_change(self):
         msgBox = QMessageBox()
@@ -42,11 +41,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if ret == QMessageBox.Yes:
             self.sap.massive_change(self.txt_file.text())
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("Ejecucion completada")
-            msg.setWindowTitle("Modificaciones masivas")
-            msg.exec_()
+
+            self.plainTextEdit.appendPlainText("Ejecucion completada con exito!") 
 
     def logout(self):
         msgBox = QMessageBox()
