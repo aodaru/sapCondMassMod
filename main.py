@@ -1,4 +1,5 @@
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
+from PySide2.QtGui import QIcon
 from sap import SapGui
 from ui_sap import Ui_MainWindow
 import sys
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication([])
+    app.setWindowIcon(QIcon("icon.ico")) 
     window = MainWindow()
     window.show()
     app.exec_()
