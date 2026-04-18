@@ -124,7 +124,7 @@ class SapVk12MassMod:
             gpo_mat_field.text = row.GRUPO_ARTICULO
     
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").text = row.IMPORTE
-        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").setFocus
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").setFocus()
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[2,0]").caretPosition = 16
         session.findById("wnd[0]").sendVKey(0)
         time.sleep(1)
@@ -174,7 +174,7 @@ class SapVk12MassMod:
         else:
             material_field.text = row.MATERIAL
 
-        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").setFocus
+        session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").setFocus()
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/ctxtKOMG-MATNR[0,0]").caretPosition = 8
         session.findById("wnd[0]").sendVKey(0)
         session.findById("wnd[0]/usr/tblSAPMV13ATCTRL_FAST_ENTRY/txtKONP-KBETR[4,0]").text = row.IMPORTE
