@@ -1,5 +1,6 @@
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
 from PySide2.QtGui import QIcon
+from PySide2.QtCore import Qt
 from sap import SapGui
 from ui_sap import Ui_MainWindow
 import sys
@@ -9,6 +10,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("Automatin SAP System")
+
+        # Always on top
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
         self.btn_open.clicked.connect(self.open_file)
         self.btn_login.clicked.connect(self.login_sap)
@@ -26,14 +30,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def login_sap(self):
         self.sap = SapGui()
-        self.sap.sapLogin()
+        self.sap.sapLogin(self.plainTextEdit.appendPlainText)
 
         self.plainTextEdit.appendPlainText(f"{'='*50}")
         self.plainTextEdit.appendPlainText("Login successful") 
         self.plainTextEdit.appendPlainText(f"{'='*50}")
 
     def massive_change(self):
-        msgBox = QMessageBox()
+        msgBox = QMessageBox(self)
         msgBox.setWindowTitle("Confirmación de ejecución de procedimiento masivo")
         msgBox.setIcon(QMessageBox.Question)
         msgBox.setText("Estas Seguro de ejecutar el procedimiento masivo?")
@@ -49,7 +53,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.plainTextEdit.appendPlainText(f"{'='*50}")
 
     def logout(self):
-        msgBox = QMessageBox()
+        msgBox = QMessageBox(self)
         msgBox.setWindowTitle("Cerrar")
         msgBox.setIcon(QMessageBox.Question)
         msgBox.setText("Esta seguro que desea cerrar la sesión?")
@@ -57,7 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ret = msgBox.exec_()
 
         if ret == QMessageBox.Yes:
-            self.sap.safe_close_window()
+            self.sap.safe_close_window(self.plainTextEdit.appendPlainText)
             self.plainTextEdit.appendPlainText(f"{'='*50}")
             self.plainTextEdit.appendPlainText("Sesión cerrada con éxito")
             self.plainTextEdit.appendPlainText(f"{'='*50}")

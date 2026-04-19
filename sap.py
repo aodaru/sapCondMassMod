@@ -31,12 +31,21 @@ class SapGui():
         self.session = self.connection.Children(0)
         self.session.findById("wnd[0]").maximize()
 
-    def sapLogin(self):
+    def sapLogin(self, log_func=print):
         self.open_sap()
         time.sleep(3)
         self.SapGuiAuto = win32com.client.GetObject("SAPGUI")
         self.application = self.SapGuiAuto.GetScriptingEngine
-        self.connection = self.application.OpenConnection(system_sap, True)
+
+        try:
+            self.connection = self.application.OpenConnection(system_sap, True)
+        except:
+            print(sys.exc_info()[0])
+            log_func(f"{'='*50}")
+            log_func(f"Error tratando de conectar con SAP: {sys.exc_info()[0]}")
+            log_func(f"La red no esta accesible o el sistema SAP no esta disponible.")
+            log_func(f"{'='*50}")
+
         time.sleep(3)
         self.session = self.connection.Children(0)
 
@@ -58,10 +67,19 @@ class SapGui():
         
         except:
             print(sys.exc_info()[0])
+            log_func(f"Error tratando de conectar con SAP: {sys.exc_info()[0]}")
 
-    def safe_close_window(self):
-        self.connection_sap()
-        self.connection.CloseSession('ses[0]')
+    def safe_close_window(self, log_func=print):
+
+        try:
+            self.connection_sap()
+            self.connection.CloseSession('ses[0]')
+        except:
+            print(sys.exc_info()[0])
+            log_func(f"{'='*50}")
+            log_func(f"Error tratando de conectar con SAP para cerrar sesión: {sys.exc_info()[0]}")
+            log_func(f"{'='*50}")
+
         subprocess.run(["taskkill", "/f", "/im", "saplogon.exe"])
     
     def massive_change(self, file_path, log_func=print):
