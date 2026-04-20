@@ -4,6 +4,10 @@ from PySide2.QtCore import Qt
 from sap import SapGui
 from ui_sap import Ui_MainWindow
 import sys
+import shutil 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -23,6 +27,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_close.clicked.connect(self.close_application)
 
         self.plainTextEdit.setReadOnly(True)
+
+        if hasattr(self, 'lbl_template'):
+            self.lbl_template.linkActivated.connect(self.download_template)
     
     def open_file(self):
         self.file = QFileDialog.getOpenFileName(self, "Elija la hoja de cálculo")
@@ -68,6 +75,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def close_application(self):
         self.close()
+
+    def download_template(self):
+        template_source = BASE_DIR / "template_vk12.xlsx"
+        if not template_source.exists():
+            QMessageBox.critical(self, "Error", "No se encontró el archivo de plantilla.")
+            return
+        dest = QFileDialog.getSaveFileName(self, "Guardar plantilla como", "template_vk12.xlsx", "Excel Files (*.xlsx)")
+        if dest:
+            try:
+                shutil.copy(template_source, dest[0])
+                QMessageBox.information(self, "Éxito", "Plantilla descargada exitosamente.")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"No se pudo descargar la plantilla: {e}")
+
 
 if __name__ == "__main__":
     app = QApplication([])

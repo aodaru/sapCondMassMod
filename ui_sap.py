@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(639, 503)
+        MainWindow.resize(639, 547)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -139,6 +139,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.lbl_template = QLabel(self.pg_sap)
+        self.lbl_template.setObjectName(u"lbl_template")
+        self.lbl_template.setCursor(QCursor(Qt.PointingHandCursor))
+        self.lbl_template.setOpenExternalLinks(False)
+
+        self.horizontalLayout.addWidget(self.lbl_template)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout)
+
         self.Pages.addWidget(self.pg_sap)
 
         self.verticalLayout.addWidget(self.Pages)
@@ -162,5 +174,6 @@ class Ui_MainWindow(object):
         self.btn_ejecutar.setText(QCoreApplication.translate("MainWindow", u"Ejecutar", None))
         self.btn_logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.btn_close.setText(QCoreApplication.translate("MainWindow", u"Cerrar SAP", None))
+        self.lbl_template.setText(QCoreApplication.translate("MainWindow", u"<a href=\"download\">Descargar Plantilla Excel</a>", None))
     # retranslateUi
 

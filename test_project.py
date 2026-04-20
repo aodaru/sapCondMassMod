@@ -48,8 +48,8 @@ class TestValidators:
         assert "no debe contener letras" in error
 
     def test_validate_field_invalid_unidad_medida(self):
-        error = validate_field("UNIDAD_DE_MEDIDA", "KG", 1)
-        assert "debe ser UN, MT o PT" in error
+        error = validate_field("UNIDAD_DE_MEDIDA", "XYZ", 1)
+        assert "No es una unidad de medida válida" in error
 
     def test_validate_excel_valid_data(self):
         data = {
@@ -62,7 +62,7 @@ class TestValidators:
         }
         df = pd.DataFrame(data)
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
-            df.to_excel(tmp.name, sheet_name="Hoja1", index=False)
+            df.to_excel(tmp.name, sheet_name="vk12", index=False)
             tmp.close()  # Close the file before reading
             validated_data, errors = validate_excel(tmp.name)
             os.unlink(tmp.name)
@@ -76,7 +76,7 @@ class TestValidators:
         }
         df = pd.DataFrame(data)
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
-            df.to_excel(tmp.name, sheet_name="Hoja1", index=False)
+            df.to_excel(tmp.name, sheet_name="vk12", index=False)
             tmp.close()
             validated_data, errors = validate_excel(tmp.name)
             os.unlink(tmp.name)
@@ -94,7 +94,7 @@ class TestValidators:
         }
         df = pd.DataFrame(data)
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
-            df.to_excel(tmp.name, sheet_name="Hoja1", index=False)
+            df.to_excel(tmp.name, sheet_name="vk12", index=False)
             tmp.close()
             validated_data, errors = validate_excel(tmp.name)
             os.unlink(tmp.name)

@@ -22,7 +22,7 @@ Esta aplicación automatiza modificaciones masivas de condiciones de precios en 
 
 ## Uso
 1. Abre la aplicación (`python main.py`).
-2. Haz clic en "Abrir Archivo" para seleccionar un Excel con datos (hoja "Hoja1").
+2. Haz clic en "Abrir Archivo" para seleccionar un Excel con datos (hoja "vk12").
 3. Haz clic en "Login SAP" para iniciar sesión.
 4. Haz clic en "Ejecutar" para procesar modificaciones masivas.
 5. Revisa el log en el área de texto para errores y progreso.

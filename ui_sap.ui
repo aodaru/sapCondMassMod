@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>639</width>
-    <height>503</height>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -214,6 +214,23 @@ QPushButton:hover{
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="lbl_template">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>&lt;a href=&quot;download&quot;&gt;Descargar Plantilla Excel&lt;/a&gt;</string>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
          </layout>
