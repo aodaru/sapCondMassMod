@@ -32,7 +32,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.lbl_template.linkActivated.connect(self.download_template)
     
     def open_file(self):
-        self.file = QFileDialog.getOpenFileName(self, "Elija la hoja de cálculo")
+        self.file = QFileDialog.getOpenFileName(
+            self, 
+            "Elija la hoja de cálculo",
+            "Excel Files (*.xlsx *.xls);;All Files (*)"
+        )
         self.txt_file.setText(str(self.file[0]))
 
     def login_sap(self):
