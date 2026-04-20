@@ -71,7 +71,7 @@ def validate_field(field: str, value: str, row_num: int) -> Optional[str]:
             return f"Fila {row_num}: '{field}' no debe contener letras ni caracteres especiales"
 
     if field == "UNIDAD_DE_MEDIDA" and value not in VALID_UNIDAD_MEDIDA:
-        return f"Fila {row_num}: '{field}' debe ser UN, MT o PT"
+        return f"Fila {row_num}: '{field}' No es una unidad de medida válida"
 
     return None
 
@@ -79,7 +79,7 @@ def validate_field(field: str, value: str, row_num: int) -> Optional[str]:
 def validate_excel(file_path: str, log_func=print) -> Tuple[pd.DataFrame, List[str]]:
     errors = []
 
-    data = pd.read_excel(file_path, sheet_name="Hoja1", dtype=str)
+    data = pd.read_excel(file_path, sheet_name="vk12", dtype=str)
     data.columns = data.columns.str.strip().str.upper().str.replace(" ", "_")
 
     for index, row in data.iterrows():
