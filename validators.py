@@ -1,26 +1,24 @@
 import pandas as pd
 from typing import Optional, Tuple, List
+import os
+import json
+from dotenv import load_dotenv
+from pathlib import Path
 
-VALID_FLOWS = (
-    "mat_orgvent_candistr",
-    "orgvent_candistr_sec_ramo_mat",
-    "orgven_candist_sec_gpoart",
-    "orgvent_candistr_gpoart",
-)
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR / ".env")
 
-FLOW_FIELDS = {
-    "mat_orgvent_candistr": ["MATERIAL", "UNIDAD_DE_MEDIDA", "IMPORTE", "ORG_VENTA", "CAN_DISTR"],
-    "orgvent_candistr_gpoart": ["ORG_VENTA", "CAN_DISTR", "GRUPO_ARTICULO", "IMPORTE"],
-    "orgvent_candistr_sec_ramo_mat": ["ORG_VENTA", "CAN_DISTR", "SECTOR", "RAMO", "MATERIAL"],
-    "orgven_candist_sec_gpoart": ["ORG_VENTA", "CAN_DISTR", "SECTOR", "RAMO", "GRUPO_ARTICULO"],
-}
+# Leer y parsear desde .env
+VALID_FLOWS = tuple(os.getenv("VALID_FLOWS", "").split(","))
 
-VALID_ORG_VENTA = {"1000"}
-VALID_CAN_DISTR = {"10", "20", "30", "40", "50"}
-VALID_SECTOR = {"10", "20", "30", "40", "50"}
-VALID_RAMO = {"ZDET", "ZCON", "ZPROY"}
-VALID_UNIDAD_MEDIDA = {"UN", "MT", "PT"}
+VALID_ORG_VENTA = set(os.getenv("VALID_ORG_VENTA", "").split(","))
+VALID_CAN_DISTR = set(os.getenv("VALID_CAN_DISTR", "").split(","))
+VALID_SECTOR = set(os.getenv("VALID_SECTOR", "").split(","))
+VALID_RAMO = set(os.getenv("VALID_RAMO", "").split(","))
+VALID_UNIDAD_MEDIDA = set(os.getenv("VALID_UNIDAD_MEDIDA", "").split(","))
 
+# FLOW_FIELDS como diccionario desde JSON
+FLOW_FIELDS = json.loads(os.getenv("FLOW_FIELDS", "{}"))
 
 def is_numeric(value: str) -> bool:
     try:
