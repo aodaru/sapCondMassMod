@@ -35,7 +35,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.file = QFileDialog.getOpenFileName(
             self, 
             "Elija la hoja de cálculo",
-            "Excel Files (*.xlsx *.xls);;All Files (*)"
+            "",
+            "Excel Files (*.xlsx *.xls)"
         )
         self.txt_file.setText(str(self.file[0]))
 
