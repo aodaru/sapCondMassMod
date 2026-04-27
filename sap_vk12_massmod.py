@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adal Michael Garcia
+# Licensed under the MIT License - see LICENSE file for details
+
 import time
 import pandas as pd
 from validators import validate_excel, print_validation_errors

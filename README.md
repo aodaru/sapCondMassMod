@@ -51,4 +51,4 @@ Ejecuta `pytest test_project.py` para validar funcionalidades. Usa `test_vk12.xl
 - **Documentación expandida**: Guías detalladas, diagramas de flujo, y ejemplos de uso.
 
 ## Licencia
-[Agrega licencia si aplica, ej. MIT].
+MIT License - ver archivo LICENSE para detalles.

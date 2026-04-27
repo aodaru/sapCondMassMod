@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adal Michael Garcia
+# Licensed under the MIT License - see LICENSE file for details
+
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox 
 from PySide2.QtGui import QIcon
 from PySide2.QtCore import Qt

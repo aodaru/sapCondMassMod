@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adal Michael Garcia
+# Licensed under the MIT License - see LICENSE file for details
+
 from os import replace
 import subprocess
 import time

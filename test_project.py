@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adal Michael Garcia
+# Licensed under the MIT License - see LICENSE file for details
+
 import pytest
 import pandas as pd
 import tempfile

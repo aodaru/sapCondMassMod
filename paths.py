@@ -1,3 +1,6 @@
+# Copyright (c) 2026 Adal Michael Garcia
+# Licensed under the MIT License - see LICENSE file for details
+
 import os
 import sys
 from pathlib import Path
