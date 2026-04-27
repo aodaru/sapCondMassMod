@@ -4,8 +4,9 @@ import os
 import json
 from dotenv import load_dotenv
 from pathlib import Path
+from paths import get_base_path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(get_base_path())
 load_dotenv(BASE_DIR / ".env")
 
 # Leer y parsear desde .env

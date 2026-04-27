@@ -1,7 +1,10 @@
 .env
 .venv/
 node_modules/
+build/
+dist/
 __pycache__/
 pnpm-lock.yaml
 opencode.json
 .~lock*
+main.spec

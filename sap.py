@@ -8,8 +8,9 @@ from sap_vk12_massmod import SapVk12MassMod
 import win32com.client  # type: ignore
 import pandas as pd
 from pathlib import Path
+from paths import get_base_path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(get_base_path())
 load_dotenv(BASE_DIR / ".env")
 
 system_sap = os.getenv("SYSTEM")

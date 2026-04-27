@@ -3,11 +3,13 @@ from PySide2.QtGui import QIcon
 from PySide2.QtCore import Qt
 from sap import SapGui
 from ui_sap import Ui_MainWindow
+from paths import get_base_path
 import sys
 import shutil 
 from pathlib import Path
+import os
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(get_base_path())
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -30,7 +32,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if hasattr(self, 'lbl_template'):
             self.lbl_template.linkActivated.connect(self.download_template)
-    
+     
+        
     def open_file(self):
         self.file = QFileDialog.getOpenFileName(
             self, 
@@ -82,7 +85,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.close()
 
     def download_template(self):
-        template_source = BASE_DIR / "template_vk12.xlsx"
+        base_path = get_base_path()
+        template_source = Path(base_path) / "template_vk12.xlsx"
         if not template_source.exists():
             QMessageBox.critical(self, "Error", "No se encontró el archivo de plantilla.")
             return
