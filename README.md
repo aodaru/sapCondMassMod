@@ -1,4 +1,4 @@
-# SAP Condiciones de Masa - Modificación (Versión 1.0)
+# SAP Condiciones de Masa - Modificación (Versión 1.0.0)
 
 ## Descripción
 Esta aplicación automatiza modificaciones masivas de condiciones de precios en sistemas SAP utilizando la transacción VK12. Está construida con Python, PySide2 para la interfaz gráfica (GUI), y scripting de SAP GUI para interacciones automatizadas. Permite cargar un archivo Excel con datos de modificación, validar los datos, y ejecutar cambios en masa mientras registra el progreso y errores en la GUI.
